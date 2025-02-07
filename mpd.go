@@ -181,7 +181,7 @@ func GetPlaylistDuration(mpddata *MPD) float64 {
 	duration, err := time.ParseDuration(strings.ToLower(strings.TrimPrefix(mpddata.MediaPresentationDuration, "PT")))
 
 	if err != nil {
-		fmt.Printf("failed to parse time duration: %s\n", err.Error())
+		fmt.Printf("Failed to parse time duration: %s\n", err.Error())
 		return 0
 	}
 
@@ -200,7 +200,7 @@ func HandleDownloadTrack(mediatype string, id string, numberofsegments float64, 
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("bad status while downloading init track: %s", resp.Status)
+		return fmt.Errorf("Bad status while downloading init track: %s", resp.Status)
 	}
 
 	if !isDirExists("downloads") {
@@ -261,7 +261,7 @@ func HandleDownloadTrack(mediatype string, id string, numberofsegments float64, 
 
 			if resp.StatusCode == 404 && idx == int(numberofsegments) {
 				numberofsegments -= 1
-				fmt.Println("Hmm that's odd.... let's try to finish the decryption process though")
+				fmt.Println("Page returned a 404, attempting to finish decryption process...")
 				return
 			}
 
@@ -333,7 +333,7 @@ func DecryptPlaylist(id string, initmp4 string, key string) {
 
 	err := cmd.Run()
 	if err != nil {
-		fmt.Println("Error running ffmpeg command:", err)
+		fmt.Println("Error running FFmpeg command:", err)
 		return
 	}
 }
@@ -343,7 +343,7 @@ func Merge(videofile string, audiofile string, kid string) {
 
 	err := cmd.Run()
 	if err != nil {
-		fmt.Println("Error running ffmpeg command:", err)
+		fmt.Println("Error running FFmpeg command:", err)
 		return
 	}
 
