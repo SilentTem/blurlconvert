@@ -18,7 +18,7 @@ func main() {
 	}
 
 	if !strings.HasSuffix(os.Args[1], ".blurl") && !strings.HasSuffix(os.Args[1], ".json") {
-		fmt.Println("input must be a blurl or a json")
+		fmt.Println("Input file must be a .blurl or .json file")
 		return
 	}
 
@@ -52,7 +52,7 @@ func main() {
 	if len(blurl.Ev) > 0 {
 		decodedEV, err := base64.StdEncoding.DecodeString(blurl.Ev)
 		if err != nil {
-			fmt.Println("Error decoding base64:", err)
+			fmt.Println("Error decoding Base64:", err)
 			return
 		}
 
@@ -79,7 +79,7 @@ func main() {
 	trackduration := GetPlaylistDuration(mpddata)
 
 	if trackduration < 0 {
-		fmt.Println("Track Duration is 0 exiting!")
+		fmt.Println("Track Duration is 0, exiting!")
 		return
 	}
 
@@ -110,7 +110,7 @@ func main() {
 			err := HandleDownloadTrack(adaptation.ContentType, fmt.Sprintf("master_%s", adaptation.ContentType), numberOfSegments, getBaseURL(mediaurl), strings.ReplaceAll(adaptation.Representation[0].SegmentTemplate.Initialization, "$RepresentationID$", adaptation.Representation[0].ID), adaptation.Representation[0].ID, hex.EncodeToString(key))
 
 			if err != nil {
-				fmt.Println("Error Downloading Track", err)
+				fmt.Println("Error downloading track", err)
 				return
 			}
 		}
@@ -125,7 +125,7 @@ func main() {
 		os.RemoveAll("./downloads")
 
 	} else {
-		fmt.Println("Invalid number of track segments! exiting.")
+		fmt.Println("Invalid number of track segments! Exiting.")
 		return
 	}
 }
