@@ -25,11 +25,11 @@ func ParseJsonFromDecryptedBlob(blob string) string {
 func decryptEnvelope(EVString string, Bearer string) (string, error) {
 	Envelope, err := base64.StdEncoding.DecodeString(EVString)
 	if err != nil {
-		return "", fmt.Errorf("failed to decode envelope: %s", err)
+		return "", fmt.Errorf("Failed to decode envelope: %s", err)
 	}
 
 	if Envelope[0] != 1 {
-		return "", errors.New("envelope header is invalid")
+		return "", errors.New("Envelope header is invalid")
 	}
 
 	fourthbyteofEnv := int(Envelope[3])
@@ -68,7 +68,7 @@ func decryptEnvelope(EVString string, Bearer string) (string, error) {
 			}
 
 		} else {
-			return "", errors.New("invalid bearer subkey length")
+			return "", errors.New("Invalid bearer subkey length")
 		}
 	}
 
@@ -110,7 +110,7 @@ func GetFestEncryptionKey(EVString string, Bearer string) (string, error) {
 	}
 
 	if len(cdmobj.Keys) == 0 {
-		return "", errors.New("no keys found in ev blob")
+		return "", errors.New("No keys found in EV blob")
 	}
 
 	key := cdmobj.Keys[0].K
@@ -120,7 +120,7 @@ func GetFestEncryptionKey(EVString string, Bearer string) (string, error) {
 
 	decodedKey, err := base64.StdEncoding.DecodeString(addBase64Padding([]byte(key)))
 	if err != nil {
-		return "", fmt.Errorf("failed to decode key %v", err)
+		return "", fmt.Errorf("Failed to decode key %v", err)
 	}
 
 	key = hex.EncodeToString(decodedKey)
