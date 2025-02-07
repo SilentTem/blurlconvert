@@ -21,7 +21,7 @@ func AesDecrypt(key []byte, bytes []byte) ([]byte, error) {
 		return nil, err
 	}
 	if len(bytes)%block.BlockSize() != 0 {
-		return nil, errors.New("ciphertext is not a multiple of the block size")
+		return nil, errors.New("Ciphertext is not a multiple of the block size")
 	}
 
 	decrypted := make([]byte, len(bytes))
@@ -36,7 +36,7 @@ func ParseEV(b []byte) (Envelope, error) {
 	var data Envelope
 
 	if len(b) == 0 {
-		return Envelope{}, errors.New("No Envelope Found (likely no encryption)")
+		return Envelope{}, errors.New("No envelope found (likely no encryption)")
 	}
 
 	data.FirstByte = b[0]
@@ -47,7 +47,7 @@ func ParseEV(b []byte) (Envelope, error) {
 
 	stringLength := b[2]
 	if len(b) < 5+int(stringLength)+16 {
-		return data, fmt.Errorf("invalid key length")
+		return data, fmt.Errorf("Invalid key length")
 	}
 
 	data.Nonce = string(b[5 : 5+stringLength])
@@ -95,14 +95,14 @@ func GetEncryptionKey(filePath, nonce string, encryptedkey []byte) []byte {
 			var EncryptionKey [32]byte
 			_, err = file.Read(EncryptionKey[:])
 			if err != nil && err != io.EOF {
-				fmt.Println("Error Getting Encryption Key:", err)
+				fmt.Println("Error getting encryption key:", err)
 				break
 			}
 
 			encryptionkey, err := AesDecrypt(EncryptionKey[:], encryptedkey)
 
 			if err != nil {
-				fmt.Println("failed to decrypt encryption key:", err)
+				fmt.Println("Failed to decrypt encryption key:", err)
 			}
 
 			return encryptionkey
